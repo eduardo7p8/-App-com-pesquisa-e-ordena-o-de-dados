@@ -2,7 +2,6 @@
 import { Injectable } from "@angular/core";
 import 'rxjs/add/operator/map';
 import { HttpClient } from '@angular/common/http';
-
 import "rxjs/add/operator/map";
 /*
   Generated class for the TwdServiceProvider provider.
@@ -26,7 +25,7 @@ export class TwdServiceProvider {
     return new Promise(resolve => {
       this.http.get(
         'https://api.tvmaze.com/singlesearch/shows?q=the-walking-dead&embed=episodes'
-      )
+      ).map(res => res)
         .subscribe(data => {
           this.data = data;
           resolve(this.data);
@@ -35,14 +34,10 @@ export class TwdServiceProvider {
   }
 
    getEpisodeById(id: number) {
-    if (this.data) {
-      return Promise.resolve(this.data);
-    }
 
     return new Promise(resolve => {
-      this.http
-        .get(`http://api.tvmaze.com/episodes/${id}`)
-        .map(res => res.json())
+      this.http.get(`http://api.tvmaze.com/episodes/${id}`)
+        .map(res => res)
         .subscribe(data => {
           this.data = data;
           resolve(this.data);
